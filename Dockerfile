@@ -19,6 +19,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update
 # PHP Extensions
 RUN apt-get install -y --force-yes php7.0-dev php7.0-mcrypt php7.0-zip php7.0-xml php7.0-mbstring php7.0-curl php7.0-json php7.0-mysql php7.0-tokenizer php7.0-cli
 
+RUN /usr/sbin/php-fpm7.0
+
 VOLUME /root/composer
 
 # Environmental Variables
@@ -53,7 +55,9 @@ RUN chmod u=rwx /opt/bin/nginx-start.sh
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN mkdir -p /data
+RUN mkdir -p /data/www
+RUN mkdir -p /data/logs
+
 VOLUME ["/data"]
 
 # PORTS
