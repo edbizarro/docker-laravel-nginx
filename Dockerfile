@@ -73,5 +73,3 @@ VOLUME ["/data"]
 # PORTS
 EXPOSE 80
 EXPOSE 443
-
-ENTRYPOINT /usr/sbin/nginx
