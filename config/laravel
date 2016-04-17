@@ -1,15 +1,9 @@
 server {
-    client_max_body_size 20M;
-    listen 80;
+    listen 80 default_server;
 
     root /data/www/public;
     index index.php index.html index.htm;
 
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    
 
     location ~ /\.ht {
     	deny all;
