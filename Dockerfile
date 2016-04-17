@@ -2,6 +2,9 @@ FROM nginx
 
 MAINTAINER "Eduardo Bizarro" <edbizarro@gmail.com"
 
+RUN mkdir -p /etc/nginx/sites-available/
+RUN mkdir -p //etc/nginx/sites-enabled/laravel
+
 # Apply Nginx configuration
 COPY config/nginx.conf /etc/nginx/nginx.conf
 COPY config/laravel /etc/nginx/sites-available/laravel
