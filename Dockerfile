@@ -1,6 +1,6 @@
-FROM debian:jessie
+FROM phusion/baseimage:0.9.18
 
-MAINTAINER "Dylan Lindgren" <dylan.lindgren@gmail.com>
+MAINTAINER "Eduardo Bizarro" <edbizarro@gmail.com"
 
 WORKDIR /tmp
 
