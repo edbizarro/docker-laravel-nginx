@@ -8,8 +8,7 @@ RUN mkdir -p //etc/nginx/sites-enabled/laravel
 # Apply Nginx configuration
 COPY config/nginx.conf /etc/nginx/nginx.conf
 COPY config/laravel /etc/nginx/sites-available/laravel
-RUN ln -s /etc/nginx/sites-available/laravel /etc/nginx/sites-enabled/laravel && \
-    rm /etc/nginx/sites-enabled/default
+RUN ln -s /etc/nginx/sites-available/laravel /etc/nginx/sites-enabled/laravel
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
