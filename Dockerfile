@@ -73,6 +73,8 @@ RUN cp /opt/etc/nginx.conf /etc/nginx/nginx.conf
 ADD config/nginx-start.sh /opt/bin/nginx-start.sh
 RUN chmod u=rwx /opt/bin/nginx-start.sh
 
+RUN /etc/init.d/php7.0-fpm start
+
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN mkdir -p /data/www
