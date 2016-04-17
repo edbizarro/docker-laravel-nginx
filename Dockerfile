@@ -2,6 +2,9 @@ FROM phusion/baseimage:0.9.18
 
 MAINTAINER "Eduardo Bizarro" <edbizarro@gmail.com"
 
+# Use baseimage-docker's init system.
+CMD ["/sbin/my_init"]
+
 WORKDIR /tmp
 
 # Install Nginx
