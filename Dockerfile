@@ -1,26 +1,45 @@
-FROM phusion/baseimage:0.9.18
+FROM ubuntu:14.04
 
 MAINTAINER "Eduardo Bizarro" <edbizarro@gmail.com"
 
-# Use baseimage-docker's init system.
-CMD ["/sbin/my_init"]
+# Ensure UTF-8
+RUN locale-gen en_US.UTF-8
+ENV LANG       en_US.UTF-8
+ENV LC_ALL     en_US.UTF-8
 
 WORKDIR /tmp
+
+# Keep upstart from complaining
+RUN dpkg-divert --local --rename --add /sbin/initctl
+RUN ln -sf /bin/true /sbin/initctl
+
+# Let the conatiner know that there is no tty
+ENV DEBIAN_FRONTEND noninteractive
+
+# Update and install some useful apts
+RUN apt-get update
+
+# Avoid ERROR: invoke-rc.d: policy-rc.d denied execution of start.
+RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
+RUN apt-get upgrade -y
 
 # Install Nginx
 RUN apt-get update -y && \
     apt-get install -y nginx \
+      software-properties-common \
+      python-software-properties \
+      openssl \
+      mcrypt \
+      curl \
+      unzip \
 
     && apt-get --purge autoremove
 
-RUN DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:ondrej/php
-RUN DEBIAN_FRONTEND=noninteractive apt-get update
+RUN add-apt-repository -y ppa:ondrej/php
+RUN apt-get update
 
 # PHP Extensions
 RUN apt-get install -y --force-yes php7.0-fpm php7.0-mcrypt php7.0-zip php7.0-xml php7.0-mbstring php7.0-curl php7.0-json php7.0-mysql php7.0-tokenizer php7.0-cli
-
-ADD config/fpm-start.sh /opt/bin/fpm-start.sh
-RUN chmod u=rwx /opt/bin/fpm-start.sh
 
 VOLUME /root/composer
 
