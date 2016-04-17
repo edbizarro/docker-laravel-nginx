@@ -13,6 +13,33 @@ RUN apt-get update -y && \
 
     && apt-get --purge autoremove
 
+RUN DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:ondrej/php
+RUN DEBIAN_FRONTEND=noninteractive apt-get update
+
+# PHP Extensions
+RUN apt-get install -y php7.0-dev php7.0-mcrypt php7.0-zip php7.0-xml php7.0-mbstring php7.0-curl php7.0-json php7.0-mysql php7.0-tokenizer php7.0-cli
+
+VOLUME /root/composer
+
+# Environmental Variables
+ENV COMPOSER_HOME /root/composer
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN /usr/local/bin/composer global require hirak/prestissimo
+
+# Goto temporary directory.
+WORKDIR /tmp
+
+# Run composer and phpunit installation.
+RUN composer selfupdate && \
+    composer require "phpunit/phpunit:^5.3" --prefer-dist --no-interaction && \
+    ln -s /tmp/vendor/bin/phpunit /usr/local/bin/phpunit && \
+    rm -rf /root/.composer/cache/*
+
+RUN composer --version
+
 # Apply Nginx configuration
 ADD config/nginx.conf /opt/etc/nginx.conf
 ADD config/laravel /etc/nginx/sites-available/laravel
