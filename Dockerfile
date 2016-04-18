@@ -1,9 +1,9 @@
-FROM nginx
+FROM nginx:1.9.14
 
 MAINTAINER "Eduardo Bizarro" <edbizarro@gmail.com"
 
 RUN mkdir -p /etc/nginx/sites-available/
-RUN mkdir -p //etc/nginx/sites-enabled/
+RUN mkdir -p /etc/nginx/sites-enabled/
 
 # Apply Nginx configuration
 COPY config/nginx.conf /etc/nginx/nginx.conf
