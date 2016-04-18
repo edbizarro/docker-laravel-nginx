@@ -15,7 +15,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN mkdir -p /data/www
 RUN mkdir -p /data/logs
 
-VOLUME ["/data"]
+VOLUME ["/data", "/data/www", "/data/logs"]
 
 # PORTS
 EXPOSE 80 443
